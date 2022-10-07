@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div>
+    <span class="inf"><b>{% trans 'Status' %}:</b> {{ status }}.</span>
+    <br>
+    <span class="inf"><b>{% trans 'Started' %}:</b> {{ data_time }}.</span>
+    <br>
+    <span class="inf"><b>{% trans 'IP' %}:</b> {{ IP }}.</span>
+    <br>
+    <span class="inf"><b>{% trans 'Port(s)' %}:</b> {{ port }}.</span>
+    <br>
+    <span class="inf"><b>{% trans 'Name(s) of container(s)' %}:</b> {{ username }}.</span>
+    <hr>
+    <a href="{% url 'back' %}"  >
+    <button class="button_success">{% trans 'Stop all' %}</button>
+    </a>
+</div>
+{% endblock %}

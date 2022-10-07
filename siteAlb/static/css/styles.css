@@ -1,0 +1,109 @@
+html {
+  font-size: 80.5%;
+  font-family: serif;
+  background: url(../img/bgmap.png);
+
+
+}
+body {
+  font-size: 1.8rem;
+  color: #000000;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: black;
+  font-family: Verdana, Geneva, sans-serif;
+
+}
+h1 {
+    color: black;
+  font-size: 2.35em;
+}
+h2 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.75em;
+}
+h4 {
+  font-size: 1.5em;
+}
+h5 {
+  font-size: 1.25em;
+}
+h6 {
+  font-size: 1em;
+}
+
+
+.footer {
+  position: absolute;
+  bottom: 15px;
+    right: 15px;
+}
+
+.button_success {
+    font-family: serif;
+    background-color: #4a4a4a;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button_go {
+    font-family: serif;
+    background-color: #4a4a4a;
+    border: none;
+    color: white;
+    padding: 4px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.select {
+      font-family: serif;
+      width: 130px;
+      height: 30px;
+      text-align: center;
+      border: none;
+      font-size: 18px;
+      color: #ffffff;
+      background-color: #4a4a4a;
+      border-radius: 5px;
+      }
+
+
+.button_login {
+    font-family: serif;
+    background-color: #4a4a4a;
+    border: black;
+    color: white;
+    padding: 30px 150px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.cent_b{
+    position: absolute;
+    left: 40%;
+    top: 50%;
+}
+
+.inf{
+    background-color: #ffffff;
+}

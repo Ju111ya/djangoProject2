@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <b>{%trans 'User' %}: {{ user.get_username }}!</b>
+       <a href="{% url 'logout'%}" class="button_go" name="logout">{% trans 'Logout' %}</a>
+        <hr>
+
+
+    <div align="center">
+    <form action="{% url 'working_sim' %}" method="post">
+        {% csrf_token %}
+        <b>{% trans 'Choose version' %}:</b>
+        <div>{{ form.vers_field }}</div>
+        <b>{% trans 'Choose count of containers' %}:</b>
+        <div> {{ form.count_cont }}</div>
+        <br>
+        <input type="submit" class="button_success" value={% trans 'Start Simulator' %}>
+    </form>
+</div>
+
+
+    {% else %}
+        <hr>
+<h2 align="center">{% trans "Log in to the Albatros Simulator" %}</h2>
+        <hr>
+      <div class="cent_b">
+        <a href="{% url 'login' %}" class="button_login">{% trans 'Login' %}</a>
+      </div>
+    {% endif %}
+{% endblock %}
