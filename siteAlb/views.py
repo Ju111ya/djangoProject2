@@ -1,11 +1,15 @@
-from contextlib import closing
-from datetime import datetime
 import socket
-import python_on_whales
+from contextlib import closing
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .forms import versSim
 from python_on_whales import *
+from siteAlb.forms import versSim
+from argparse import ArgumentParser
+from time import sleep
+from pymavlink import mavutil
+from pymavlink.dialects.v10.ardupilotmega import MAVLink as mavlink1
+from pymavlink.dialects.v10 import ardupilotmega
+
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
@@ -15,6 +19,12 @@ s.close
 names_conts = ""
 stack_of_ports = ""
 status = ""
+n=0
+
+def wait_heartbeat(m:mavutil.mavudp):
+    print("Waiting for APM heartbeat")
+    m.wait_heartbeat()
+    print("Heartbeat from APM (system %u component %u)" % (m.target_system, m.target_system))
 
 
 def home_view(request):
@@ -32,10 +42,12 @@ def ports():
 def sim_running(request):
     username = request.user.get_username()
     version = request.POST.get("vers_field")
-    count = request.POST.get("count_cont")
+    count = str(request.POST.get("count_cont"))
     global name_cont
     global n
     n = int(count)
+    print(type(count))
+    print(type(n))
     global status
     global names_conts
     global stack_of_ports
@@ -49,12 +61,15 @@ def sim_running(request):
                    'username': names_conts})
 
 
+
+
 def start_sim(username, version, n):
     if version == "4.1":
         doc_v = "ghcr.io/albatros-llc-ap/arduplane_sim:4_1_custom"
     else:
         doc_v = "ghcr.io/albatros-llc-ap/arduplane_sim:3_9_custom"
     global status
+    print(status)
     global names_conts
     global stack_of_ports
     for i in range(n):
@@ -74,7 +89,20 @@ def start_sim(username, version, n):
         except DockerException as e:
             print(f"Exit code {e.return_code} while running {e.docker_command}")
             status = "not running"
+
+    portss = stack_of_ports.split(" ")
+    portss.pop()
+    print(portss)
+    connection: mavutil.mavudp
+    for i in range(n):
+        source = f"udpin:localhost:{int(portss[i])}"
+        connection = mavutil.mavlink_connection(device=source)
+        wait_heartbeat(connection)
+        mav: mavlink1
+        mav = connection.mav
+        mav.param_set_send(connection.target_system, connection.target_component, b'SIM_WIND_SPD', 10, mavutil.ardupilotmega.MAV_PARAM_TYPE_INT64)
     return names_conts, stack_of_ports
+
 
 
 def status_cont(name_cont):
@@ -99,3 +127,7 @@ def stop_sim(request):
             return HttpResponseRedirect('/')
     names.clear()
     return HttpResponseRedirect('/')
+
+
+
+
